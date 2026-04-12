@@ -1,0 +1,61 @@
+.subjects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.subjects-header h1 {
+  font-size: 2rem;
+}
+
+.add-subject-section {
+  background-color: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.add-subject-form {
+  display: flex;
+  gap: 1rem;
+}
+
+.add-subject-form input {
+  flex: 1;
+}
+
+.subjects-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.subject-card {
+  background-color: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.subject-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-color);
+}
+
+.subject-card h3 {
+  color: var(--primary-color);
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.subject-card p {
+  color: #6b7280;
+  margin: 0;
+}
