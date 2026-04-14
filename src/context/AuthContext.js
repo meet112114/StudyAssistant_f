@@ -9,16 +9,15 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if token exists, then fetch me
     const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
 
     if (token && storedUser) {
-        try {
-            setUser(JSON.parse(storedUser));
-        } catch(e) {
-            console.error("Failed parsing user", e)
-        }
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Failed parsing user", e)
+      }
     }
     setLoading(false);
   }, []);

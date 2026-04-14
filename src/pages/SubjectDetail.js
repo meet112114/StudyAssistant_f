@@ -7,6 +7,7 @@ const SubjectDetail = () => {
   const [subject, setSubject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   const fetchSubject = async () => {
     try {
@@ -52,7 +53,7 @@ const SubjectDetail = () => {
       if (response.ok) {
         fetchSubject();
         setSelectedFile(null);
-        // Clear input file naturally using native dom event if possible, but state clearing is usually enough
+        setShowUploadModal(false);
       } else {
         alert(data.message || 'Upload failed');
       }
@@ -69,52 +70,64 @@ const SubjectDetail = () => {
     <div className="subject-detail-container">
       <div className="subject-detail-header">
         <Link to="/subjects" className="back-link">← Back to Subjects</Link>
-        <h1>{subject.name}</h1>
+        <div className="title-row">
+          <h1>{subject.name}</h1>
+          <button className="primary-btn add-btn" onClick={() => setShowUploadModal(true)}>
+            + Add Resource
+          </button>
+        </div>
       </div>
 
-      <div className="detail-layout">
-        <div className="resources-panel">
-          <h2>Resources</h2>
-          {(!subject.resources || subject.resources.length === 0) ? (
-            <p className="no-resources">No resources attached to this subject yet.</p>
-          ) : (
-            <div className="resources-grid">
-              {subject.resources.map(res => (
-                <div key={res._id} className="resource-card">
-                   <div className="res-icon">
-                     {res.type === 'pdf' ? '📖' : res.type === 'docx' ? '📝' : '📄'}
-                   </div>
-                   <div className="res-info">
-                     <a href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${res.url}`} target="_blank" rel="noreferrer">
-                       {res.name}
-                     </a>
-                     <p>{(res.size / 1024).toFixed(2)} KB • {res.type.toUpperCase()}</p>
-                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+      <div className="resources-panel">
+        {(!subject.resources || subject.resources.length === 0) ? (
+          <p className="no-resources">No resources attached to this subject yet.</p>
+        ) : (
+          <div className="resources-grid">
+            {subject.resources.map(res => (
+              <div key={res._id} className="resource-card">
+                 <div className="res-icon">
+                   {res.type === 'pdf' ? '📖' : res.type === 'docx' ? '📝' : '📄'}
+                 </div>
+                 <div className="res-info">
+                   <Link to={`/resources/${res._id}`} className="resource-link">
+                     {res.name}
+                   </Link>
+                   <p>{(res.size / 1024).toFixed(2)} KB • {res.type.toUpperCase()}</p>
+                 </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
-        <div className="upload-panel">
-          <h2>Add Resource</h2>
-          <p>Upload a PDF, Word Document(.docx), or Text File.</p>
-          <div className="upload-box">
-             <input 
-                type="file" 
-                accept=".pdf,.docx,.txt"
-                onChange={(e) => setSelectedFile(e.target.files[0])}
-             />
-             <button 
-               onClick={handleUploadResource}
-               disabled={!selectedFile}
-               className="upload-btn"
-             >
-               Upload File
-             </button>
+      {showUploadModal && (
+        <div className="modal-overlay">
+          <div className="upload-modal">
+            <button className="close-modal-btn" onClick={() => {
+                setShowUploadModal(false);
+                setSelectedFile(null);
+            }}>&times;</button>
+            <div className="upload-panel">
+              <h2>Add Resource</h2>
+              <p>Upload a PDF, Word Document(.docx), or Text File.</p>
+              <div className="upload-box">
+                 <input 
+                    type="file" 
+                    accept=".pdf,.docx,.txt"
+                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                 />
+                 <button 
+                   onClick={handleUploadResource}
+                   disabled={!selectedFile}
+                   className="upload-btn primary-btn"
+                 >
+                   Upload File
+                 </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

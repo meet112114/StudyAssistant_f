@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Subjects from './pages/Subjects';
 import SubjectDetail from './pages/SubjectDetail';
+import ResourceDetail from './pages/ResourceDetail';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
 
@@ -56,6 +57,10 @@ function AppContent() {
           <Route 
             path="/subjects/:id" 
             element={<ProtectedRoute><SubjectDetail /></ProtectedRoute>} 
+          />
+          <Route 
+            path="/resources/:id" 
+            element={<ProtectedRoute><ResourceDetail /></ProtectedRoute>} 
           />
         </Routes>
       </div>

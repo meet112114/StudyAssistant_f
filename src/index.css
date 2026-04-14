@@ -8,12 +8,13 @@
 }
 
 [data-theme='dark'] {
-  --bg-color: #121212;
-  --text-color: #f3f4f6;
-  --primary-color: #6366f1;
-  --primary-hover: #4f46e5;
-  --secondary-bg: #1f2937;
-  --border-color: #374151;
+  --bg-color: #09090b; /* Zinc 950 */
+  --text-color: #fafafa;
+  --primary-color: #818cf8; /* Indigo 400 */
+  --primary-hover: #6366f1; /* Indigo 500 */
+  --secondary-bg: #18181b; /* Zinc 900 */
+  --border-color: #27272a; /* Zinc 800 */
+  --accent-color: #38bdf8; /* Sky 400 */
 }
 
 * {
