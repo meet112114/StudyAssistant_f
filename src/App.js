@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Subjects from './pages/Subjects';
 import SubjectDetail from './pages/SubjectDetail';
 import ResourceDetail from './pages/ResourceDetail';
+import Chat from './pages/Chat';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
 
@@ -41,29 +42,32 @@ function AppContent() {
            </button>
          </div>
       )}
-      <div className="main-content">
-        <Routes>
-          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route 
-            path="/dashboard" 
-            element={<ProtectedRoute><Dashboard /></ProtectedRoute>} 
-          />
-          <Route 
-            path="/subjects" 
-            element={<ProtectedRoute><Subjects /></ProtectedRoute>} 
-          />
-          <Route 
-            path="/subjects/:id" 
-            element={<ProtectedRoute><SubjectDetail /></ProtectedRoute>} 
-          />
-          <Route 
-            path="/resources/:id" 
-            element={<ProtectedRoute><ResourceDetail /></ProtectedRoute>} 
-          />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<div className="main-content"><Login /></div>} />
+        <Route path="/register" element={<div className="main-content"><Register /></div>} />
+        <Route
+          path="/dashboard"
+          element={<ProtectedRoute><div className="main-content"><Dashboard /></div></ProtectedRoute>}
+        />
+        <Route
+          path="/subjects"
+          element={<ProtectedRoute><div className="main-content"><Subjects /></div></ProtectedRoute>}
+        />
+        <Route
+          path="/subjects/:id"
+          element={<ProtectedRoute><div className="main-content"><SubjectDetail /></div></ProtectedRoute>}
+        />
+        <Route
+          path="/resources/:id"
+          element={<ProtectedRoute><div className="main-content"><ResourceDetail /></div></ProtectedRoute>}
+        />
+        {/* Chat gets NO main-content wrapper — it manages its own full-bleed layout */}
+        <Route
+          path="/chat"
+          element={<ProtectedRoute><Chat /></ProtectedRoute>}
+        />
+      </Routes>
     </Router>
   );
 }

@@ -24,6 +24,9 @@ const Navbar = ({ toggleTheme, theme }) => {
         <li>
           <Link to="/subjects">Subjects</Link>
         </li>
+        <li>
+          <Link to="/chat">💬 Chat</Link>
+        </li>
       </ul>
       <div className="navbar-actions">
         <span className="welcome-text">Welcome, {user?.name || user?.email}</span>

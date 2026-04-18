@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import './ResourceDetail.css';
 
 const ResourceDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [resource, setResource] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -174,13 +177,13 @@ const ResourceDetail = () => {
               )}
             </div>
 
-            {/* Chat Action Placholder */}
+            {/* Chat Action */}
             <div className="action-card">
               <div className="action-info">
                 <h3>💬 Chat with Document</h3>
                 <p>Ask freeform questions directly to the text.</p>
               </div>
-              <button className="primary-btn ai-btn chat-btn full-width-btn" onClick={() => alert('Chat interface coming soon!')}>
+              <button className="primary-btn ai-btn chat-btn full-width-btn" onClick={() => navigate(`/chat?resource=${id}`)}>
                 Start Chat
               </button>
             </div>
@@ -215,7 +218,9 @@ const ResourceDetail = () => {
               <div className="summary-badge-container">
                 <span className="badge">AI Generated</span>
               </div>
-              <div className="summary-content-inner">{summary}</div>
+              <div className="summary-content-inner">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{summary}</ReactMarkdown>
+              </div>
               <div className="quiz-actions" style={{ marginTop: '2rem' }}>
                 <button className="primary-btn ai-btn secondary-btn" onClick={() => setShowSummaryModal(false)}>Close Summary</button>
               </div>
