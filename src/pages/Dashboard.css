@@ -1,12 +1,28 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   DASHBOARD — Premium Minimal Dark
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
+  animation: fadeIn 0.4s ease;
 }
 
 .dashboard-header h1 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text-color), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dashboard-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
 .dashboard-widgets {
@@ -16,14 +32,56 @@
 }
 
 .widget {
-  background-color: var(--secondary-bg);
-  padding: 1.5rem;
-  border-radius: 8px;
+  background: var(--bg-elevated);
+  padding: 1.75rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.widget::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.widget:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.widget:hover::before {
+  opacity: 1;
 }
 
 .widget h3 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   color: var(--primary-color);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
+
+.widget p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container { gap: 1.5rem; }
+  .dashboard-header h1 { font-size: 1.5rem; }
+  .dashboard-widgets { grid-template-columns: 1fr; gap: 1rem; }
+  .widget { padding: 1.25rem; }
+}
+

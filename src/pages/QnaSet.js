@@ -673,6 +673,31 @@ const QnaPage = () => {
   const answeredCount = activeSet?.questions?.filter(q => q.isAnswered).length || 0;
   const totalCount    = activeSet?.questions?.length || 0;
 
+  /* ── Detail: Download PDF ────────────────────────────────────────────────── */
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+
+  const handleDownloadPdf = async () => {
+    try {
+      setDownloadingPdf(true);
+      const res = await fetch(`${API}/qna/pdf/${activeSet._id}`, { headers: auth() });
+      if (!res.ok) throw new Error("PDF failed");
+      const blob = await res.blob();
+      const fileURL = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = `${activeSet?.title || 'QnaSet'}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(fileURL);
+    } catch (err) {
+      console.log(err);
+      alert('Failed to download PDF.');
+    } finally {
+      setDownloadingPdf(false);
+    }
+  };
+
   /* ══════════════════════════════════════════════════════════════════════════
      RENDER
   ══════════════════════════════════════════════════════════════════════════ */
@@ -713,6 +738,15 @@ const QnaPage = () => {
               <div className="qna-progress-bar-outer">
                 <div className="qna-progress-bar-fill" style={{ width: totalCount ? `${(answeredCount/totalCount)*100}%` : '0%' }} />
               </div>
+              <button 
+                type="button"
+                className="qna-action-btn primary"
+                onClick={handleDownloadPdf}
+                disabled={downloadingPdf}
+                style={{ marginLeft: '0.75rem', padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+              >
+                {downloadingPdf ? <><span className="qna-spin" /> Downloading…</> : '⬇ Download PDF'}
+              </button>
             </div>
           )}
         </div>

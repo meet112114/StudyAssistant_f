@@ -1,89 +1,118 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SUBJECT DETAIL — Premium Minimal Dark
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
 .subject-detail-container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  animation: fadeIn 0.4s ease;
 }
 
 .subject-detail-header {
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1rem;
+  padding-bottom: 1.25rem;
 }
 
 .back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   margin-bottom: 1rem;
-  color: var(--primary-color);
+  color: var(--text-muted);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: color 0.2s;
 }
 
 .back-link:hover {
-  text-decoration: underline;
+  color: var(--primary-color);
 }
 
 .title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+}
+
+.title-row h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .add-btn {
-  background-color: var(--primary-color);
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  background: var(--primary-color);
+  color: var(--primary-text);
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md);
   border: none;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.88rem;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .add-btn:hover {
-  background-color: var(--primary-hover);
+  background: var(--primary-hover);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
 }
 
 .resources-panel h2 {
   margin-bottom: 1.5rem;
   color: var(--primary-color);
-  display: none; /* Hidden since it's redundant with the page title */
+  display: none;
 }
 
 .resources-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
 }
 
 .resource-card {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: var(--secondary-bg);
+  background: var(--bg-elevated);
   padding: 1.25rem;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .resource-card:hover {
-  border-color: rgba(129, 140, 248, 0.5);
+  border-color: var(--primary-border);
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .res-icon {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
 }
 
 .resource-link, .res-info a {
-  font-weight: bold;
+  font-weight: 700;
   color: var(--text-color);
   text-decoration: none;
   display: block;
   margin-bottom: 0.25rem;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
 }
 
 .resource-link:hover, .res-info a:hover {
@@ -91,47 +120,62 @@
 }
 
 .res-info p {
-  font-size: 0.85rem;
-  color: #a1a1aa;
+  font-size: 0.8rem;
+  color: var(--text-muted);
   margin: 0;
 }
 
-/* Modal Styling */
+.no-resources {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 2rem 0;
+}
+
+/* ── Upload Modal ── */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  animation: fadeIn 0.2s ease;
 }
 
 .upload-modal {
-  background-color: var(--bg-color);
+  background: var(--bg-elevated);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   width: 90%;
-  max-width: 500px;
+  max-width: 480px;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.3s ease;
 }
 
 .close-modal-btn {
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 12px;
+  right: 16px;
   background: none;
   border: none;
-  font-size: 1.8rem;
-  color: var(--text-color);
+  font-size: 1.6rem;
+  color: var(--text-muted);
   cursor: pointer;
   opacity: 0.6;
+  transition: all 0.2s;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
 }
 
 .close-modal-btn:hover {
   opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+  transform: none;
+  box-shadow: none;
 }
 
 .upload-panel {
@@ -142,31 +186,56 @@
 
 .upload-panel h2 {
   color: var(--text-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .upload-panel p {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   margin-bottom: 1.5rem;
-  color: #a1a1aa;
+  color: var(--text-muted);
 }
 
 .upload-box {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .upload-box input[type="file"] {
-  border: 1px dashed var(--border-color);
-  padding: 1.5rem;
-  border-radius: 8px;
-  background: var(--secondary-bg);
+  border: 2px dashed var(--border-hover);
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
   cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.upload-box input[type="file"]:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-subtle);
 }
 
 .upload-btn {
   width: 100%;
   padding: 0.75rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
+
+@media (max-width: 768px) {
+  .subject-detail-header h1 { font-size: 1.3rem; }
+  .title-row { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .add-btn { width: 100%; text-align: center; }
+  .resources-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .resource-card { padding: 1rem; gap: 0.75rem; }
+  .upload-modal { width: 95%; }
+  .upload-panel { padding: 1.5rem; }
+  .upload-panel h2 { font-size: 1.1rem; }
+  .upload-box input[type="file"] { padding: 1.25rem 1rem; }
+}
+
