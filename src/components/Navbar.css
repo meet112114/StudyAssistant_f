@@ -50,3 +50,54 @@
   background-color: #ef4444;
   color: white;
 }
+
+.credits-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 160px;
+  padding: 4px 8px;
+  background: var(--card-bg, rgba(128,128,128,0.08));
+  border-radius: 8px;
+}
+
+.credits-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.credits-label {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.credits-value {
+  font-weight: 700;
+  font-size: 0.78rem;
+  transition: color 0.3s;
+}
+
+.credits-max {
+  font-weight: 400;
+  opacity: 0.5;
+  font-size: 0.7rem;
+}
+
+.credits-low-warning {
+  font-size: 0.68rem;
+  color: #f44336;
+  text-decoration: none;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+}
+
+.credits-low-warning:hover {
+  text-decoration: underline;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}

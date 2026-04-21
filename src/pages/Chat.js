@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Chat.css';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
@@ -290,6 +291,7 @@ const TypingIndicator = () => (
 // ─── Main Chat Page ────────────────────────────────────────────────────────────
 const Chat = () => {
   const [searchParams] = useSearchParams();
+  const { fetchUser } = useAuth();
   const preloadedResourceId = searchParams.get('resource');
 
   const [subjects, setSubjects] = useState([]);
@@ -407,6 +409,7 @@ const Chat = () => {
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();
+      if (fetchUser) fetchUser(); // Sync token count dynamically
     }
   };
 

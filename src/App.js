@@ -8,6 +8,8 @@ import Subjects from './pages/Subjects';
 import SubjectDetail from './pages/SubjectDetail';
 import ResourceDetail from './pages/ResourceDetail';
 import Chat from './pages/Chat';
+import QnaPage from './pages/QnaSet';
+import { QnaPublicViewer, QnaDiscoverPage } from './pages/QnaPublic';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
 
@@ -67,6 +69,13 @@ function AppContent() {
           path="/chat"
           element={<ProtectedRoute><Chat /></ProtectedRoute>}
         />
+        <Route
+          path="/qna"
+          element={<ProtectedRoute><QnaPage /></ProtectedRoute>}
+        />
+        {/* Public QnA routes — no auth required */}
+        <Route path="/qna/discover" element={<QnaDiscoverPage />} />
+        <Route path="/qna/public/:id" element={<QnaPublicViewer />} />
       </Routes>
     </Router>
   );

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useAuth } from '../context/AuthContext';
 import './ResourceDetail.css';
 
 const ResourceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { fetchUser } = useAuth();
   const [resource, setResource] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -61,6 +63,7 @@ const ResourceDetail = () => {
       if (response.ok) {
         setSummary(data.content);
         setShowSummaryModal(true);
+        if (fetchUser) fetchUser();
       } else {
         alert(data.message || 'Error generating summary');
       }
@@ -83,6 +86,7 @@ const ResourceDetail = () => {
       if (response.ok) {
         setQuiz(data.questions);
         startQuiz();
+        if (fetchUser) fetchUser();
       } else {
         alert(data.message || 'Error generating quiz');
       }
