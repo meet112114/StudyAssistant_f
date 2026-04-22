@@ -51,7 +51,7 @@ const Navbar = ({ toggleTheme, theme }) => {
         </ul>
 
         <div className="navbar-actions">
-          {user?.credits != null && (
+          {user && (
             <div className="credits-widget" title={`${balance.toLocaleString()} credits remaining`}>
               <div className="credits-header">
                 <span className="credits-label">🪙 Credits</span>

@@ -108,7 +108,8 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 155px;
+  min-width: 155px;
+  width: max-content;
   padding: 6px 10px;
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -225,7 +226,7 @@
   .navbar-links-desktop { gap: 0; }
   .navbar-links-desktop li a { padding: 0.4rem 0.6rem; font-size: 0.78rem; }
   .welcome-text { display: none; }
-  .credits-widget { width: 130px; }
+  .credits-widget { min-width: 130px; }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
