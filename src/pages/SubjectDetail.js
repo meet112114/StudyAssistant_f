@@ -8,6 +8,7 @@ const SubjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const fetchSubject = async () => {
     try {
@@ -34,8 +35,9 @@ const SubjectDetail = () => {
   }, [id]);
 
   const handleUploadResource = async () => {
-    if (!selectedFile || !subject) return;
+    if (!selectedFile || !subject || isUploading) return;
 
+    setIsUploading(true);
     const formData = new FormData();
     formData.append('subjectId', subject._id);
     formData.append('subjectName', subject.name);
@@ -60,6 +62,8 @@ const SubjectDetail = () => {
     } catch (error) {
       console.error('Error uploading resource', error);
       alert('Network error');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -138,6 +142,7 @@ const SubjectDetail = () => {
             <button className="close-modal-btn" onClick={() => {
                 setShowUploadModal(false);
                 setSelectedFile(null);
+                setIsUploading(false);
             }}>&times;</button>
             <div className="upload-panel">
               <h2>Add Resource</h2>
@@ -150,10 +155,10 @@ const SubjectDetail = () => {
                  />
                  <button 
                    onClick={handleUploadResource}
-                   disabled={!selectedFile}
+                   disabled={!selectedFile || isUploading}
                    className="upload-btn primary-btn"
                  >
-                   Upload File
+                   {isUploading ? 'Uploading...' : 'Upload File'}
                  </button>
               </div>
             </div>
