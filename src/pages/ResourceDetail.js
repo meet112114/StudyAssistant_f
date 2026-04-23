@@ -145,7 +145,7 @@ const ResourceDetail = () => {
         <h1>{resource.name}</h1>
         <p className="subtitle">
           Size: {(resource.size / 1024).toFixed(2)} KB • Type: {resource.type.toUpperCase()} •
-          <a href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${resource.url}`} target="_blank" rel="noreferrer" className="view-original"> Open Original</a>
+          <a href={resource.url.startsWith('http') ? resource.url : `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${resource.url}`} target="_blank" rel="noreferrer" className="view-original"> Open Original</a>
         </p>
       </div>
 
@@ -235,14 +235,14 @@ const ResourceDetail = () => {
         <div className="document-viewer">
           {resource.type === 'pdf' ? (
             <iframe
-              src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${resource.url}`}
+              src={resource.url.startsWith('http') ? resource.url : `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${resource.url}`}
               title={resource.name}
             />
           ) : (
             <div className="doc-placeholder">
               <div className="icon">📄</div>
               <p>Preview not available for {resource.type.toUpperCase()} files inline.</p>
-              <a href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${resource.url}`} target="_blank" rel="noreferrer" className="primary-btn ai-btn">Download Original</a>
+              <a href={resource.url.startsWith('http') ? resource.url : `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${resource.url}`} target="_blank" rel="noreferrer" className="primary-btn ai-btn">Download Original</a>
             </div>
           )}
         </div>
