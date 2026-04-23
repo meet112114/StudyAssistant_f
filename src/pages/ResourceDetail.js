@@ -17,6 +17,8 @@ const ResourceDetail = () => {
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [quiz, setQuiz] = useState(null);
   const [loadingQuiz, setLoadingQuiz] = useState(false);
+  const [quizDifficulty, setQuizDifficulty] = useState('medium');
+  const [quizNumQuestions, setQuizNumQuestions] = useState(10);
 
   // Modal states
   const [showSummaryModal, setShowSummaryModal] = useState(false);
@@ -77,7 +79,12 @@ const ResourceDetail = () => {
   const handleGenerateQuiz = async () => {
     setLoadingQuiz(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/resource/item/${id}/quiz`, {
+      const params = new URLSearchParams({
+        difficulty: quizDifficulty,
+        numQuestions: quizNumQuestions,
+        regenerate: 'true'
+      });
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/resource/item/${id}/quiz?${params.toString()}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -168,16 +175,46 @@ const ResourceDetail = () => {
             <div className="action-card">
               <div className="action-info">
                 <h3>📝 Knowledge Check Quiz</h3>
-                <p>Test your retention with a 10-question MCQ.</p>
+                <p>Test your retention with a custom quiz.</p>
+              </div>
+              <div className="quiz-settings">
+                <label className="quiz-setting-label">
+                  Difficulty
+                  <select
+                    className="quiz-select"
+                    value={quizDifficulty}
+                    onChange={e => setQuizDifficulty(e.target.value)}
+                  >
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                  </select>
+                </label>
+                <label className="quiz-setting-label">
+                  Questions
+                  <input
+                    className="quiz-input"
+                    type="number"
+                    min={1}
+                    max={30}
+                    value={quizNumQuestions}
+                    onChange={e => setQuizNumQuestions(Number(e.target.value))}
+                  />
+                </label>
               </div>
               {!quiz ? (
                 <button className="primary-btn ai-btn quiz-btn full-width-btn" onClick={handleGenerateQuiz} disabled={loadingQuiz}>
                   {loadingQuiz ? 'Generating...' : 'Generate AI Quiz'}
                 </button>
               ) : (
-                <button className="primary-btn ai-btn quiz-btn full-width-btn" onClick={startQuiz}>
-                  Take Interactive Quiz
-                </button>
+                <div className="action-button-group">
+                  <button className="primary-btn ai-btn quiz-btn full-width-btn" onClick={startQuiz}>
+                    Take Interactive Quiz
+                  </button>
+                  <button className="primary-btn ai-btn secondary-btn full-width-btn" onClick={handleGenerateQuiz} disabled={loadingQuiz}>
+                    {loadingQuiz ? 'Regenerating...' : 'Regenerate Quiz'}
+                  </button>
+                </div>
               )}
             </div>
 

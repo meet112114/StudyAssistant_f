@@ -20,7 +20,11 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         login(data.user, data.token);
-        navigate('/dashboard');
+        if (data.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         alert(data.message || 'Login failed');
       }

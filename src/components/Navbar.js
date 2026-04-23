@@ -7,10 +7,11 @@ import "./Navbar.css";
 const MAX_CREDITS = 50000; 
 
 const Navbar = ({ toggleTheme, theme }) => {
-  const { user, logout } = useAuth();
+  const { user, logout, fetchUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -18,6 +19,14 @@ const Navbar = ({ toggleTheme, theme }) => {
   };
 
   const closeMenu = () => setMenuOpen(false);
+
+  const handleRefreshCredits = async () => {
+    if (fetchUser && !isRefreshing) {
+      setIsRefreshing(true);
+      await fetchUser();
+      setTimeout(() => setIsRefreshing(false), 500); // Small visual delay
+    }
+  };
 
   const balance     = user?.credits?.balance ?? 0;
   const percentage  = Math.min((balance / MAX_CREDITS) * 100, 100);
@@ -48,13 +57,26 @@ const Navbar = ({ toggleTheme, theme }) => {
           <li><Link to="/subjects" className={isActive("/subjects")}>Subjects</Link></li>
           <li><Link to="/chat" className={isActive("/chat")}>💬 Chat</Link></li>
           <li><Link to="/qna" className={isActive("/qna")}>📋 QnA</Link></li>
+          {user?.role === 'admin' && (
+            <li><Link to="/admin" className={isActive("/admin")} style={{ color: 'var(--primary-color)' }}>⚙️ Admin</Link></li>
+          )}
         </ul>
 
         <div className="navbar-actions">
           {user && (
             <div className="credits-widget" title={`${balance.toLocaleString()} credits remaining`}>
               <div className="credits-header">
-                <span className="credits-label">🪙 Credits</span>
+                <span className="credits-label">
+                  🪙 Credits
+                  <button 
+                    className={`refresh-credits-btn ${isRefreshing ? 'spinning' : ''}`}
+                    onClick={handleRefreshCredits}
+                    title="Refresh Credits"
+                    aria-label="Refresh Credits"
+                  >
+                    🔄
+                  </button>
+                </span>
                 <span className="credits-value" style={{ color: getBarColor() }}>
                   {formatCredits(balance)}
                   <span className="credits-max"> / {formatCredits(MAX_CREDITS)}</span>
@@ -122,6 +144,11 @@ const Navbar = ({ toggleTheme, theme }) => {
             <Link to="/qna" className={`mobile-menu-link ${isActive("/qna")}`} onClick={closeMenu}>
               📋 QnA Sets
             </Link>
+            {user?.role === 'admin' && (
+              <Link to="/admin" className={`mobile-menu-link ${isActive("/admin")}`} onClick={closeMenu} style={{ color: 'var(--primary-color)' }}>
+                ⚙️ Admin Panel
+              </Link>
+            )}
 
             <div className="mobile-menu-divider" />
 

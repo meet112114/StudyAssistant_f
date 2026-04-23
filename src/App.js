@@ -10,6 +10,7 @@ import ResourceDetail from './pages/ResourceDetail';
 import Chat from './pages/Chat';
 import QnaPage from './pages/QnaSet';
 import { QnaPublicViewer, QnaDiscoverPage } from './pages/QnaPublic';
+import AdminDashboard from './pages/AdminDashboard';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
 
@@ -17,6 +18,12 @@ const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading) return <div>Loading...</div>;
   return user ? children : <Navigate to="/login" />;
+};
+
+const AdminRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) return <div>Loading...</div>;
+  return user && user.role === 'admin' ? children : <Navigate to="/dashboard" />;
 };
 
 function AppContent() {
@@ -76,6 +83,12 @@ function AppContent() {
         {/* Public QnA routes — no auth required */}
         <Route path="/qna/discover" element={<QnaDiscoverPage />} />
         <Route path="/qna/public/:id" element={<QnaPublicViewer />} />
+        
+        {/* Admin Route */}
+        <Route
+          path="/admin"
+          element={<AdminRoute><div className="main-content"><AdminDashboard /></div></AdminRoute>}
+        />
       </Routes>
     </Router>
   );
