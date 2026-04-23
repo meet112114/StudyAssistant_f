@@ -125,6 +125,28 @@
   margin: 0;
 }
 
+.res-info {
+  flex: 1;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+  opacity: 0.5;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
 .no-resources {
   color: var(--text-muted);
   font-size: 0.9rem;

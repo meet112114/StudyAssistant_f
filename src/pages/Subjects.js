@@ -55,6 +55,31 @@ const Subjects = () => {
     }
   };
 
+  const handleDeleteSubject = async (e, subjectId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!window.confirm('Are you sure you want to delete this subject and all its resources?')) return;
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/subject/${subjectId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (response.ok) {
+        setSubjects(subjects.filter(s => s._id !== subjectId));
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Error deleting subject');
+      }
+    } catch (error) {
+      console.error('Error deleting subject', error);
+      alert('Network error');
+    }
+  };
+
   if (loading) return <div>Loading subjects...</div>;
 
   return (
@@ -81,8 +106,17 @@ const Subjects = () => {
         ) : (
           subjects.map(subject => (
             <Link to={`/subjects/${subject._id}`} key={subject._id} className="subject-card">
-              <h3>{subject.name}</h3>
-              <p>{subject.resources?.length || 0} Resources</p>
+              <div className="subject-card-content">
+                <h3>{subject.name}</h3>
+                <p>{subject.resources?.length || 0} Resources</p>
+              </div>
+              <button 
+                className="delete-btn" 
+                onClick={(e) => handleDeleteSubject(e, subject._id)}
+                title="Delete Subject"
+              >
+                🗑️
+              </button>
             </Link>
           ))
         )}

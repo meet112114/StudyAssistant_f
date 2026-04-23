@@ -59,6 +59,33 @@
   color: var(--text-color);
   position: relative;
   overflow: hidden;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.subject-card-content {
+  flex: 1;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.5;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
 }
 
 .subject-card::before {

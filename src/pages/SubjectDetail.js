@@ -63,6 +63,31 @@ const SubjectDetail = () => {
     }
   };
 
+  const handleDeleteResource = async (e, resourceId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!window.confirm('Are you sure you want to delete this resource?')) return;
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/resource/item/${resourceId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (response.ok) {
+        fetchSubject();
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Error deleting resource');
+      }
+    } catch (error) {
+      console.error('Error deleting resource', error);
+      alert('Network error');
+    }
+  };
+
   if (loading) return <div>Loading subject details...</div>;
   if (!subject) return <div>Subject not found.</div>;
 
@@ -94,6 +119,13 @@ const SubjectDetail = () => {
                    </Link>
                    <p>{(res.size / 1024).toFixed(2)} KB • {res.type.toUpperCase()}</p>
                  </div>
+                 <button 
+                   className="delete-btn" 
+                   onClick={(e) => handleDeleteResource(e, res._id)}
+                   title="Delete Resource"
+                 >
+                   🗑️
+                 </button>
               </div>
             ))}
           </div>
