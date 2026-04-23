@@ -55,8 +55,8 @@ const Navbar = ({ toggleTheme, theme }) => {
         <ul className="navbar-links navbar-links-desktop">
           <li><Link to="/dashboard" className={isActive("/dashboard")}>Dashboard</Link></li>
           <li><Link to="/subjects" className={isActive("/subjects")}>Subjects</Link></li>
-          <li><Link to="/chat" className={isActive("/chat")}>💬 Chat</Link></li>
-          <li><Link to="/qna" className={isActive("/qna")}>📋 QnA</Link></li>
+          <li><Link to="/chat" className={isActive("/chat")}>Chat</Link></li>
+          <li><Link to="/qna" className={isActive("/qna")}>QnA</Link></li>
           {user?.role === 'admin' && (
             <li><Link to="/admin" className={isActive("/admin")} style={{ color: 'var(--primary-color)' }}>⚙️ Admin</Link></li>
           )}
@@ -95,11 +95,6 @@ const Navbar = ({ toggleTheme, theme }) => {
                   },
                 }}
               />
-              {balance < 5000 && (
-                <Link to="/recharge" className="credits-low-warning" onClick={closeMenu}>
-                  ⚠️ Low credits — Recharge
-                </Link>
-              )}
             </div>
           )}
 

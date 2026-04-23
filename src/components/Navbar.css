@@ -4,8 +4,9 @@
 
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  gap: 1.5rem;
   padding: 0 2rem;
   height: 56px;
   background: var(--navbar-bg);
@@ -19,6 +20,10 @@
 }
 
 /* ── Logo ── */
+.navbar-logo {
+  margin-right: auto;
+}
+
 .navbar-logo a {
   font-size: 1.2rem;
   font-weight: 800;
