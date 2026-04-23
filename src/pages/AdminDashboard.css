@@ -179,3 +179,62 @@
   font-size: 1.2rem;
   color: var(--text-muted);
 }
+
+.admin-search-container {
+  margin-bottom: 1.5rem;
+}
+
+.admin-search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-elevated);
+  color: var(--text-color);
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.admin-search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-subtle);
+}
+
+.add-credits-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.add-credits-input {
+  width: 80px;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-color);
+  font-size: 0.85rem;
+}
+
+.add-credits-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.add-credits-btn {
+  background: var(--primary-color);
+  color: var(--primary-text);
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-credits-btn:hover {
+  background: var(--primary-hover);
+}

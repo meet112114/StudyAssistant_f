@@ -8,6 +8,8 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [addCreditAmount, setAddCreditAmount] = useState({});
 
   useEffect(() => {
     fetchAdminData();
@@ -35,6 +37,51 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleAddCredits = async (userId) => {
+    const amountRs = addCreditAmount[userId];
+    if (!amountRs || amountRs <= 0) return alert("Please enter a valid amount in Rs.");
+    
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/admin/users/${userId}/add-credits`, {
+        method: 'POST',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ amountRs: Number(amountRs) })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`Successfully added ${data.creditsAdded} credits.`);
+        setUsers(prev => prev.map(u => {
+          if (u._id === userId) {
+            return {
+              ...u,
+              credits: {
+                ...u.credits,
+                balance: data.newBalance,
+                totalPurchased: data.totalPurchased
+              }
+            };
+          }
+          return u;
+        }));
+        setAddCreditAmount(prev => ({ ...prev, [userId]: '' }));
+      } else {
+        alert(data.message || "Failed to add credits");
+      }
+    } catch (err) {
+      console.error("Error adding credits", err);
+      alert("An error occurred");
+    }
+  };
+
+  const filteredUsers = users.filter(u => 
+    u.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    u.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) return <div className="admin-loading">Loading Admin Panel...</div>;
 
   return (
@@ -57,6 +104,18 @@ const AdminDashboard = () => {
       </div>
 
       <div className="admin-content">
+        {(activeTab === 'users' || activeTab === 'usage') && (
+          <div className="admin-search-container">
+            <input 
+              type="text" 
+              placeholder="Search by name or email..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="admin-search-input"
+            />
+          </div>
+        )}
+
         {activeTab === 'overview' && stats && (
           <div className="admin-overview">
             <div className="stat-card">
@@ -96,7 +155,7 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map(u => (
+                {filteredUsers.map(u => (
                   <tr key={u._id}>
                     <td>{u.name}</td>
                     <td>{u.email}</td>
@@ -122,10 +181,11 @@ const AdminDashboard = () => {
                   <th>Money spent (Est Rs)</th>
                   <th>Input Tokens</th>
                   <th>Output Tokens</th>
+                  <th>Add Credits (Rs)</th>
                 </tr>
               </thead>
               <tbody>
-                {users.map(u => {
+                {filteredUsers.map(u => {
                   const moneySpent = ((u.credits?.totalPurchased || 0) / 500).toFixed(2);
                   return (
                     <tr key={u._id}>
@@ -140,6 +200,19 @@ const AdminDashboard = () => {
                       <td>₹{moneySpent}</td>
                       <td>{u.aiUsage?.inputTokens?.toLocaleString() || 0}</td>
                       <td>{u.aiUsage?.outputTokens?.toLocaleString() || 0}</td>
+                      <td>
+                        <div className="add-credits-controls">
+                          <input 
+                            type="number" 
+                            min="1"
+                            placeholder="Rs." 
+                            value={addCreditAmount[u._id] || ''}
+                            onChange={(e) => setAddCreditAmount(prev => ({...prev, [u._id]: e.target.value}))}
+                            className="add-credits-input"
+                          />
+                          <button onClick={() => handleAddCredits(u._id)} className="add-credits-btn">Add</button>
+                        </div>
+                      </td>
                     </tr>
                   )
                 })}
