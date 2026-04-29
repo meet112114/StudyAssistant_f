@@ -147,9 +147,9 @@ const SubjectDetail = () => {
                    <p>{(res.size / 1024).toFixed(2)} KB • {res.type.toUpperCase()}</p>
                  </div>
                  
-                 <div className="res-actions" style={{display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto'}}>
+                 <div className="res-actions" style={{display: 'flex', alignItems: 'center', gap: '15px', marginLeft: 'auto', flexShrink: 0}}>
                    {res.embeddingCreated ? (
-                     <span style={{color: '#4caf50', fontSize: '12px', display: 'flex', alignItems: 'center'}} title="Embedding Created">
+                     <span style={{color: '#4caf50', fontSize: '12px', display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', fontWeight: 'bold'}} title="Embedding Created">
                        🟢 AI Ready
                      </span>
                    ) : (
