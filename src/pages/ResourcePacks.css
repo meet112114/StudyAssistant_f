@@ -1,9 +1,11 @@
 .pack-card {
   display: flex !important;
+  flex-direction: column !important;
   justify-content: space-between;
-  align-items: center;
-  flex-direction: row !important;
+  align-items: flex-start;
+  gap: 1.5rem;
   cursor: default;
+  min-height: 200px;
 }
 
 .pack-card:hover {
@@ -18,15 +20,18 @@
 }
 
 .add-pack-btn {
-  padding: 10px 20px;
+  padding: 12px 20px;
   background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
 }
 
 .add-pack-btn:hover:not(:disabled) {

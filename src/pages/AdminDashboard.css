@@ -674,6 +674,7 @@
   padding: 0.6rem 0.9rem;
   border-bottom: 1px solid var(--border-color);
   transition: background 0.15s;
+  gap: 1rem;
 }
 
 .rp-resource-item:last-child {
@@ -725,6 +726,7 @@
   font-weight: 600;
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
+  white-space: nowrap;
 }
 
 .rp-status-success {
