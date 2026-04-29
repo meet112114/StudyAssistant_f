@@ -149,7 +149,7 @@ const SubjectDetail = () => {
                  
                  <div className="res-actions" style={{display: 'flex', alignItems: 'center', gap: '15px', marginLeft: 'auto', flexShrink: 0}}>
                    {res.embeddingCreated ? (
-                     <span style={{color: '#4caf50', fontSize: '12px', display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', fontWeight: 'bold'}} title="Embedding Created">
+                     <span style={{color: '#4caf50', fontSize: '12px', display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', fontWeight: 'bold', flexShrink: 0}} title="Embedding Created">
                        🟢 AI Ready
                      </span>
                    ) : (
@@ -164,6 +164,7 @@ const SubjectDetail = () => {
                    )}
                    <button 
                      className="delete-btn" 
+                     style={{ flexShrink: 0 }}
                      onClick={(e) => handleDeleteResource(e, res._id)}
                      title="Delete Resource"
                    >
