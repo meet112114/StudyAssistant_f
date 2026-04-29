@@ -34,6 +34,7 @@ const Navbar = ({ toggleTheme, theme }) => {
   const getBarColor = () => {
     if (percentage > 50) return "#4caf50";
     if (percentage > 20) return "#ff9800";
+    if (percentage > 10) return "#e96a10"
     return "#f44336";
   };
 
