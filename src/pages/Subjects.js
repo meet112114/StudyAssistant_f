@@ -84,8 +84,11 @@ const Subjects = () => {
 
   return (
     <div className="subjects-container">
-      <div className="subjects-header">
+      <div className="subjects-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
         <h1>Your Subjects</h1>
+        <Link to="/resource-packs" style={{ padding: '10px 20px', backgroundColor: 'var(--primary-color)', color: 'white', borderRadius: '6px', textDecoration: 'none', fontWeight: '500' }}>
+          Browse Resource Packs
+        </Link>
       </div>
 
       <div className="add-subject-section">

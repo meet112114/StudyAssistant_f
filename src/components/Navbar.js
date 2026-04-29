@@ -53,12 +53,16 @@ const Navbar = ({ toggleTheme, theme }) => {
 
         {/* Desktop nav links */}
         <ul className="navbar-links navbar-links-desktop">
-          <li><Link to="/dashboard" className={isActive("/dashboard")}>Dashboard</Link></li>
-          <li><Link to="/subjects" className={isActive("/subjects")}>Subjects</Link></li>
-          <li><Link to="/chat" className={isActive("/chat")}>Chat</Link></li>
-          <li><Link to="/qna" className={isActive("/qna")}>QnA</Link></li>
+          {user?.role !== 'admin' && (
+            <>
+              <li><Link to="/dashboard" className={isActive("/dashboard")}>Dashboard</Link></li>
+              <li><Link to="/subjects" className={isActive("/subjects")}>Subjects</Link></li>
+              <li><Link to="/chat" className={isActive("/chat")}>Chat</Link></li>
+              <li><Link to="/qna" className={isActive("/qna")}>QnA</Link></li>
+            </>
+          )}
           {user?.role === 'admin' && (
-            <li><Link to="/admin" className={isActive("/admin")} style={{ color: 'var(--primary-color)' }}>⚙️ Admin</Link></li>
+            <li><Link to="/admin" className={isActive("/admin")} style={{ color: 'var(--primary-color)' }}>⚙️ Admin Panel</Link></li>
           )}
         </ul>
 
@@ -127,18 +131,22 @@ const Navbar = ({ toggleTheme, theme }) => {
       {menuOpen && (
         <div className="mobile-menu-overlay" onClick={closeMenu}>
           <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
-            <Link to="/dashboard" className={`mobile-menu-link ${isActive("/dashboard")}`} onClick={closeMenu}>
-              📊 Dashboard
-            </Link>
-            <Link to="/subjects" className={`mobile-menu-link ${isActive("/subjects")}`} onClick={closeMenu}>
-              📚 Subjects
-            </Link>
-            <Link to="/chat" className={`mobile-menu-link ${isActive("/chat")}`} onClick={closeMenu}>
-              💬 Chat
-            </Link>
-            <Link to="/qna" className={`mobile-menu-link ${isActive("/qna")}`} onClick={closeMenu}>
-              📋 QnA Sets
-            </Link>
+            {user?.role !== 'admin' && (
+              <>
+                <Link to="/dashboard" className={`mobile-menu-link ${isActive("/dashboard")}`} onClick={closeMenu}>
+                  📊 Dashboard
+                </Link>
+                <Link to="/subjects" className={`mobile-menu-link ${isActive("/subjects")}`} onClick={closeMenu}>
+                  📚 Subjects
+                </Link>
+                <Link to="/chat" className={`mobile-menu-link ${isActive("/chat")}`} onClick={closeMenu}>
+                  💬 Chat
+                </Link>
+                <Link to="/qna" className={`mobile-menu-link ${isActive("/qna")}`} onClick={closeMenu}>
+                  📋 QnA Sets
+                </Link>
+              </>
+            )}
             {user?.role === 'admin' && (
               <Link to="/admin" className={`mobile-menu-link ${isActive("/admin")}`} onClick={closeMenu} style={{ color: 'var(--primary-color)' }}>
                 ⚙️ Admin Panel

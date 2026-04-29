@@ -92,6 +92,29 @@ const SubjectDetail = () => {
     }
   };
 
+  const handleRetryEmbedding = async (e, resourceId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/resource/item/${resourceId}/retry-embedding`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message || 'Embedding generation started');
+        fetchSubject();
+      } else {
+        alert(data.message || 'Error retrying embedding');
+      }
+    } catch (error) {
+      console.error('Error retrying embedding', error);
+      alert('Network error');
+    }
+  };
+
   if (loading) return <div>Loading subject details...</div>;
   if (!subject) return <div>Subject not found.</div>;
 
@@ -123,13 +146,30 @@ const SubjectDetail = () => {
                    </Link>
                    <p>{(res.size / 1024).toFixed(2)} KB • {res.type.toUpperCase()}</p>
                  </div>
-                 <button 
-                   className="delete-btn" 
-                   onClick={(e) => handleDeleteResource(e, res._id)}
-                   title="Delete Resource"
-                 >
-                   🗑️
-                 </button>
+                 
+                 <div className="res-actions" style={{display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto'}}>
+                   {res.embeddingCreated ? (
+                     <span style={{color: '#4caf50', fontSize: '12px', display: 'flex', alignItems: 'center'}} title="Embedding Created">
+                       🟢 AI Ready
+                     </span>
+                   ) : (
+                     <button 
+                       className="primary-btn" 
+                       style={{padding: '4px 8px', fontSize: '12px', backgroundColor: '#ff9800'}}
+                       onClick={(e) => handleRetryEmbedding(e, res._id)}
+                       title="Retry Embedding Generation"
+                     >
+                       Retry AI
+                     </button>
+                   )}
+                   <button 
+                     className="delete-btn" 
+                     onClick={(e) => handleDeleteResource(e, res._id)}
+                     title="Delete Resource"
+                   >
+                     🗑️
+                   </button>
+                 </div>
               </div>
             ))}
           </div>
