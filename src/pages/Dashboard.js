@@ -39,7 +39,7 @@ const Dashboard = () => {
           <div className="stat-icon tokens-icon">💵</div>
           <div className="stat-info">
             <h3>Est. Cost (Rs)</h3>
-            <p className="stat-value cost-val">₹{((user?.credits?.totalUsed || 0) / 500).toFixed(2)}</p>
+            <p className="stat-value cost-val">₹{((user?.credits?.totalUsed || 0) / 300).toFixed(2)}</p>
           </div>
         </div>
       </div>
