@@ -116,7 +116,7 @@
   min-width: 155px;
   width: max-content;
   padding: 6px 10px;
-  background: var(--bg-surface);
+  background: var(--navbar-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   transition: background 0.3s, border-color 0.3s;
