@@ -27,6 +27,7 @@ const ResourceDetail = () => {
   const [score, setScore] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
 
+
   useEffect(() => {
     fetchResource();
   }, [id]);

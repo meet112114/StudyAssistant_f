@@ -6,6 +6,7 @@ const Subjects = () => {
   const [subjects, setSubjects] = useState([]);
   const [newSubject, setNewSubject] = useState('');
   const [loading, setLoading] = useState(true);
+  const user_active_mode = process.env.REACT_APP_USER_ACTIVE_MODE === "true";
 
   const fetchSubjects = async () => {
     try {
@@ -91,6 +92,7 @@ const Subjects = () => {
         </Link>
       </div>
 
+      {user_active_mode &&
       <div className="add-subject-section">
         <form onSubmit={handleAddSubject} className="add-subject-form">
           <input 
@@ -101,7 +103,8 @@ const Subjects = () => {
           />
           <button type="submit">Add Subject</button>
         </form>
-      </div>
+      </div> }
+      
 
       <div className="subjects-list">
         {subjects.length === 0 ? (
@@ -113,13 +116,16 @@ const Subjects = () => {
                 <h3>{subject.name}</h3>
                 <p>{subject.resources?.length || 0} Resources</p>
               </div>
-              <button 
+              {user_active_mode && 
+                <button 
                 className="delete-btn" 
                 onClick={(e) => handleDeleteSubject(e, subject._id)}
                 title="Delete Subject"
               >
                 🗑️
               </button>
+              }
+             
             </Link>
           ))
         )}

@@ -10,6 +10,9 @@ const SubjectDetail = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
+
+  const user_active_mode = process.env.REACT_APP_USER_ACTIVE_MODE === "true";
+
   const fetchSubject = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/subject/${id}`, {
@@ -124,9 +127,11 @@ const SubjectDetail = () => {
         <Link to="/subjects" className="back-link">← Back to Subjects</Link>
         <div className="title-row">
           <h1>{subject.name}</h1>
+          { user_active_mode &&  
           <button className="primary-btn add-btn" onClick={() => setShowUploadModal(true)}>
             + Add Resource
-          </button>
+          </button> }
+         
         </div>
       </div>
 
@@ -162,6 +167,7 @@ const SubjectDetail = () => {
                        Retry AI
                      </button>
                    )}
+                   {user_active_mode && 
                    <button 
                      className="delete-btn" 
                      style={{ flexShrink: 0 }}
@@ -169,7 +175,8 @@ const SubjectDetail = () => {
                      title="Delete Resource"
                    >
                      🗑️
-                   </button>
+                   </button> }
+                   
                  </div>
               </div>
             ))}
