@@ -68,7 +68,13 @@ const Navbar = ({ toggleTheme, theme }) => {
         </ul>
 
         <div className="navbar-actions">
-          {user && (
+          {user && user.role !== 'admin' && user.isVerified === false ? (
+            <div className="credits-widget" title="Not Verified" style={{ cursor: 'pointer', borderColor: '#f44336', background: 'rgba(244, 67, 54, 0.1)' }} onClick={() => alert("Please contact website owner to verify yourself")}>
+              <div className="credits-header">
+                <span className="credits-label" style={{ color: '#f44336' }}>❌ Not Verified</span>
+              </div>
+            </div>
+          ) : user && (
             <div className="credits-widget" title={`${balance.toLocaleString()} credits remaining`}>
               <div className="credits-header">
                 <span className="credits-label">
@@ -165,6 +171,7 @@ const Navbar = ({ toggleTheme, theme }) => {
           </div>
         </div>
       )}
+
     </>
   );
 };

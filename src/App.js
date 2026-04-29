@@ -40,6 +40,13 @@ function AppContent() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
+    // Wake up backend on initial load
+    fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/health`)
+      .then(() => console.log('Backend wake-up initiated'))
+      .catch(err => console.error('Failed to wake up backend:', err));
+  }, []);
+
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);

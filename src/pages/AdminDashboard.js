@@ -224,6 +224,34 @@ const AdminDashboard = () => {
     } catch (err) { console.error(err); }
   };
 
+  const handleVerifyUser = async (userId) => {
+    if (!window.confirm('Verify this user and grant 1000 credits?')) return;
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/admin/users/${userId}/verify`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (res.ok) {
+        setUsers(prev => prev.map(u => {
+          if (u._id === userId) {
+            return {
+              ...u,
+              isVerified: true,
+              credits: {
+                ...u.credits,
+                balance: 1000
+              }
+            };
+          }
+          return u;
+        }));
+      } else {
+        const data = await res.json();
+        alert(data.message || 'Error verifying user');
+      }
+    } catch (err) { console.error(err); }
+  };
+
   const filteredUsers = users.filter(u => 
     u.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     u.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -299,6 +327,7 @@ const AdminDashboard = () => {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
+                  <th>Roll No</th>
                   <th>Status</th>
                   <th>Subjects</th>
                   <th>Resources</th>
@@ -312,6 +341,7 @@ const AdminDashboard = () => {
                     <td>{u.name}</td>
                     <td>{u.email}</td>
                     <td><span className={`role-badge ${u.role}`}>{u.role}</span></td>
+                    <td>{u.rollNumber || '-'}</td>
                     <td>
                       {u.isBlocked ? <span style={{ color: '#ef4444', fontWeight: 'bold' }}>Blocked</span> : <span style={{ color: '#10b981' }}>Active</span>}
                     </td>
@@ -321,6 +351,15 @@ const AdminDashboard = () => {
                     <td>
                       {u.role !== 'admin' && (
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
+                          {!u.isVerified && (
+                            <button 
+                              className="rp-btn-sm" 
+                              style={{ background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '4px', padding: '0.2rem 0.5rem', cursor: 'pointer' }}
+                              onClick={() => handleVerifyUser(u._id)}
+                            >
+                              Verify
+                            </button>
+                          )}
                           <button 
                             className="rp-btn-sm" 
                             style={{ background: u.isBlocked ? '#10b981' : '#f59e0b', color: '#fff', border: 'none', borderRadius: '4px', padding: '0.2rem 0.5rem', cursor: 'pointer' }}

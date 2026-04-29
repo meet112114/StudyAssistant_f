@@ -13,6 +13,10 @@ const Dashboard = () => {
         <p>Welcome back, {user?.name || user?.email}!</p>
       </div>
       
+      <div style={{ color: '#ef4444', fontSize: '0.9rem', marginBottom: '1.5rem', background: 'rgba(239, 68, 68, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.2)', textAlign: 'center', lineHeight: '1.5' }}>
+        <strong>🚀 Testing Phase:</strong> We are hosted on free servers, so it might take 10-20 seconds for the backend to initially wake up. Once started, everything will run smoothly!
+      </div>
+      
       <div className="dashboard-stats">
         <div className="stat-card">
           <div className="stat-icon subjects-icon">📚</div>

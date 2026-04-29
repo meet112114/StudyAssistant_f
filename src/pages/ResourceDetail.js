@@ -178,39 +178,42 @@ const ResourceDetail = () => {
                 <h3>📝 Knowledge Check Quiz</h3>
                 <p>Test your retention with a custom quiz.</p>
               </div>
-              <div className="quiz-settings">
-                <label className="quiz-setting-label">
-                  Difficulty
-                  <select
-                    className="quiz-select"
-                    value={quizDifficulty}
-                    onChange={e => setQuizDifficulty(e.target.value)}
-                  >
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                  </select>
-                </label>
-                <label className="quiz-setting-label">
-                  Questions
+              <div className="quiz-settings-modern">
+                <div className="quiz-setting-group">
+                  <span className="quiz-setting-title">Difficulty</span>
+                  <div className="difficulty-pills">
+                    {['easy', 'medium', 'hard'].map(level => (
+                      <button
+                        key={level}
+                        className={`diff-pill ${quizDifficulty === level ? 'active' : ''} ${level}`}
+                        onClick={() => setQuizDifficulty(level)}
+                      >
+                        {level.charAt(0).toUpperCase() + level.slice(1)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="quiz-setting-group">
+                  <span className="quiz-setting-title">Questions: {quizNumQuestions}</span>
                   <input
-                    className="quiz-input"
-                    type="number"
-                    min={1}
-                    max={30}
+                    type="range"
+                    min="5"
+                    max="15"
+                    step="1"
                     value={quizNumQuestions}
                     onChange={e => setQuizNumQuestions(Number(e.target.value))}
+                    className="modern-range-slider"
                   />
-                </label>
+                </div>
               </div>
               {!quiz ? (
                 <button className="primary-btn ai-btn quiz-btn full-width-btn" onClick={handleGenerateQuiz} disabled={loadingQuiz}>
-                  {loadingQuiz ? 'Generating...' : 'Generate AI Quiz'}
+                  {loadingQuiz ? 'Generating...' : '✨ Generate AI Quiz'}
                 </button>
               ) : (
                 <div className="action-button-group">
                   <button className="primary-btn ai-btn quiz-btn full-width-btn" onClick={startQuiz}>
-                    Take Interactive Quiz
+                    🎮 Take Interactive Quiz
                   </button>
                   <button className="primary-btn ai-btn secondary-btn full-width-btn" onClick={handleGenerateQuiz} disabled={loadingQuiz}>
                     {loadingQuiz ? 'Regenerating...' : 'Regenerate Quiz'}

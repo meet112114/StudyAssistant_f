@@ -282,7 +282,6 @@
   /* Hide desktop elements */
   .navbar-links-desktop { display: none; }
   .welcome-text { display: none; }
-  .credits-widget { display: none; }
   .theme-toggle { display: none; }
   .navbar .logout-btn { display: none; }
 
