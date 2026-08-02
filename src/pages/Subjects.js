@@ -5,6 +5,7 @@ import './Subjects.css';
 const Subjects = () => {
   const [subjects, setSubjects] = useState([]);
   const [newSubject, setNewSubject] = useState('');
+  const [newSemester, setNewSemester] = useState('MCA Sem 1');
   const [loading, setLoading] = useState(true);
   const user_active_mode = process.env.REACT_APP_USER_ACTIVE_MODE === "true";
 
@@ -41,7 +42,7 @@ const Subjects = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({ name: newSubject })
+        body: JSON.stringify({ name: newSubject, semester: newSemester })
       });
       const data = await response.json();
       if (response.ok) {
@@ -101,6 +102,16 @@ const Subjects = () => {
             value={newSubject} 
             onChange={(e) => setNewSubject(e.target.value)} 
           />
+          <select
+            value={newSemester}
+            onChange={(e) => setNewSemester(e.target.value)}
+            style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ccc' }}
+          >
+            <option value="MCA Sem 1">MCA Sem 1</option>
+            <option value="MCA Sem 2">MCA Sem 2</option>
+            <option value="MCA Sem 3">MCA Sem 3</option>
+            <option value="MCA Sem 4">MCA Sem 4</option>
+          </select>
           <button type="submit">Add Subject</button>
         </form>
       </div> }
