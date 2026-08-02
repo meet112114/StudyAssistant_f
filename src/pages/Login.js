@@ -38,9 +38,6 @@ const Login = () => {
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2>Login</h2>
-        <div style={{ color: '#ef4444', fontSize: '0.85rem', marginBottom: '1rem', background: 'rgba(239, 68, 68, 0.1)', padding: '0.75rem', borderRadius: '4px', textAlign: 'center', lineHeight: '1.4' }}>
-          <strong>Note:</strong> This app is in testing and hosted on free servers. It may take 10-20 seconds to wake up the backend initially, but it will run smoothly after that!
-        </div>
         <div className="form-group">
           <label>Email</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
