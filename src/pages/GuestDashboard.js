@@ -90,10 +90,6 @@ export default function GuestDashboard() {
       <div className="guest-hero">
         <div className="hero-badge">🎓 Guest Access Portal</div>
         <h1>MCA Study Hub</h1>
-        <p>
-          Browse subject resources, read PDF lecture notes, and view AI-generated summaries
-          for MCA Semesters 1 to 4 without logging in.
-        </p>
         <div className="hero-cta-buttons">
           <Link to="/login" className="btn-primary">
             Sign In
