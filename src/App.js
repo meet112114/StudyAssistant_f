@@ -12,6 +12,7 @@ import QnaPage from './pages/QnaSet';
 import { QnaPublicViewer, QnaDiscoverPage } from './pages/QnaPublic';
 import AdminDashboard from './pages/AdminDashboard';
 import ResourcePacks from './pages/ResourcePacks';
+import GuestDashboard from "./pages/GuestDashboard";
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
 
@@ -69,7 +70,7 @@ function AppContent() {
          </div>
       )}
       <Routes>
-        <Route path="/" element={user ? (user.role === 'admin' ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) : <Navigate to="/login" />} />
+        <Route path="/" element={user ? (user.role === 'admin' ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) :  <GuestDashboard />} />
         <Route path="/login" element={<div className="main-content"><Login /></div>} />
         <Route path="/register" element={<div className="main-content"><Register /></div>} />
         <Route
