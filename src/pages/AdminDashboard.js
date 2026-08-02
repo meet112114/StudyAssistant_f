@@ -18,6 +18,7 @@ const AdminDashboard = () => {
   const [editingPackId, setEditingPackId] = useState(null);
   
   const [newSubjectName, setNewSubjectName] = useState('');
+  const [newSubjectSemester, setNewSubjectSemester] = useState('MCA Sem 1');
   const [uploadSubjectId, setUploadSubjectId] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -72,7 +73,7 @@ const AdminDashboard = () => {
       const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/subject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-        body: JSON.stringify({ name: newSubjectName })
+        body: JSON.stringify({ name: newSubjectName, semester: newSubjectSemester })
       });
       if (res.ok) {
         setNewSubjectName('');
@@ -469,6 +470,17 @@ const AdminDashboard = () => {
                     onKeyDown={(e) => e.key === 'Enter' && handleAddSubject()}
                     className="rp-input"
                   />
+                  <select
+                    value={newSubjectSemester}
+                    onChange={(e) => setNewSubjectSemester(e.target.value)}
+                    className="rp-input"
+                    style={{ width: '160px' }}
+                  >
+                    <option value="MCA Sem 1">MCA Sem 1</option>
+                    <option value="MCA Sem 2">MCA Sem 2</option>
+                    <option value="MCA Sem 3">MCA Sem 3</option>
+                    <option value="MCA Sem 4">MCA Sem 4</option>
+                  </select>
                   <button onClick={handleAddSubject} className="rp-btn-primary" disabled={!newSubjectName.trim()}>
                     + Add Subject
                   </button>
@@ -488,7 +500,7 @@ const AdminDashboard = () => {
                             <span className="rp-subject-icon">📘</span>
                             <div>
                               <h3>{sub.name}</h3>
-                              <span className="rp-subject-meta">{sub.resources?.length || 0} resources</span>
+                              <span className="rp-subject-meta">{sub.semester || 'MCA Sem 1'} • {sub.resources?.length || 0} resources</span>
                             </div>
                           </div>
                           <div className="rp-subject-actions">
