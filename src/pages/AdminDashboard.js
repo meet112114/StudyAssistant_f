@@ -19,6 +19,9 @@ const AdminDashboard = () => {
   
   const [newSubjectName, setNewSubjectName] = useState('');
   const [newSubjectSemester, setNewSubjectSemester] = useState('MCA Sem 1');
+  const [editingSubjectId, setEditingSubjectId] = useState(null);
+  const [editingSubjectName, setEditingSubjectName] = useState('');
+  const [editingSubjectSemester, setEditingSubjectSemester] = useState('MCA Sem 1');
   const [uploadSubjectId, setUploadSubjectId] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -79,6 +82,21 @@ const AdminDashboard = () => {
         setNewSubjectName('');
         refreshSubjectsAndPacks();
       } else alert('Error adding subject');
+    } catch (err) { console.error(err); }
+  };
+
+  const handleSaveSubject = async (subId) => {
+    if (!editingSubjectName.trim()) return;
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/subject/${subId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify({ name: editingSubjectName, semester: editingSubjectSemester })
+      });
+      if (res.ok) {
+        setEditingSubjectId(null);
+        refreshSubjectsAndPacks();
+      } else alert('Error updating subject');
     } catch (err) { console.error(err); }
   };
 
@@ -495,20 +513,63 @@ const AdminDashboard = () => {
                   <div className="rp-subjects-grid">
                     {adminSubjects.map(sub => (
                       <div key={sub._id} className={`rp-subject-card ${expandedSubject === sub._id ? 'expanded' : ''}`}>
-                        <div className="rp-subject-header" onClick={() => setExpandedSubject(expandedSubject === sub._id ? null : sub._id)}>
-                          <div className="rp-subject-title">
-                            <span className="rp-subject-icon">📘</span>
-                            <div>
-                              <h3>{sub.name}</h3>
-                              <span className="rp-subject-meta">{sub.semester || 'MCA Sem 1'} • {sub.resources?.length || 0} resources</span>
+                        <div className="rp-subject-header" onClick={() => {
+                          if (editingSubjectId !== sub._id) {
+                            setExpandedSubject(expandedSubject === sub._id ? null : sub._id);
+                          }
+                        }}>
+                          {editingSubjectId === sub._id ? (
+                            <div className="rp-subject-edit-form" onClick={(e) => e.stopPropagation()} style={{ display: 'flex', gap: '10px', alignItems: 'center', width: '100%' }}>
+                              <input 
+                                type="text"
+                                value={editingSubjectName}
+                                onChange={(e) => setEditingSubjectName(e.target.value)}
+                                className="rp-input"
+                                style={{ margin: 0, flex: 1, padding: '6px 10px', fontSize: '0.9rem' }}
+                              />
+                              <select
+                                value={editingSubjectSemester}
+                                onChange={(e) => setEditingSubjectSemester(e.target.value)}
+                                className="rp-input"
+                                style={{ margin: 0, width: '130px', padding: '6px 10px', fontSize: '0.9rem' }}
+                              >
+                                <option value="MCA Sem 1">MCA Sem 1</option>
+                                <option value="MCA Sem 2">MCA Sem 2</option>
+                                <option value="MCA Sem 3">MCA Sem 3</option>
+                                <option value="MCA Sem 4">MCA Sem 4</option>
+                              </select>
+                              <button onClick={() => handleSaveSubject(sub._id)} className="rp-btn-primary" style={{ padding: '6px 12px', fontSize: '0.85rem' }}>
+                                Save
+                              </button>
+                              <button onClick={() => setEditingSubjectId(null)} className="rp-btn-ghost" style={{ padding: '6px 12px', fontSize: '0.85rem' }}>
+                                Cancel
+                              </button>
                             </div>
-                          </div>
-                          <div className="rp-subject-actions">
-                            <button className="rp-btn-icon rp-btn-danger" onClick={(e) => { e.stopPropagation(); handleDeleteSubject(sub._id); }} title="Delete Subject">
-                              🗑️
-                            </button>
-                            <span className="rp-chevron">{expandedSubject === sub._id ? '▲' : '▼'}</span>
-                          </div>
+                          ) : (
+                            <>
+                              <div className="rp-subject-title">
+                                <span className="rp-subject-icon">📘</span>
+                                <div>
+                                  <h3>{sub.name}</h3>
+                                  <span className="rp-subject-meta">{sub.semester || 'MCA Sem 1'} • {sub.resources?.length || 0} resources</span>
+                                </div>
+                              </div>
+                              <div className="rp-subject-actions">
+                                <button className="rp-btn-icon" onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingSubjectId(sub._id);
+                                  setEditingSubjectName(sub.name);
+                                  setEditingSubjectSemester(sub.semester || 'MCA Sem 1');
+                                }} title="Edit Subject" style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '1rem', marginRight: '5px' }}>
+                                  ✏️
+                                </button>
+                                <button className="rp-btn-icon rp-btn-danger" onClick={(e) => { e.stopPropagation(); handleDeleteSubject(sub._id); }} title="Delete Subject">
+                                  🗑️
+                                </button>
+                                <span className="rp-chevron">{expandedSubject === sub._id ? '▲' : '▼'}</span>
+                              </div>
+                            </>
+                          )}
                         </div>
 
                         {expandedSubject === sub._id && (
