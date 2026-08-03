@@ -27,6 +27,7 @@ const AdminDashboard = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [packSubTab, setPackSubTab] = useState('subjects');
   const [expandedSubject, setExpandedSubject] = useState(null);
+  const [generatingSummaries, setGeneratingSummaries] = useState({});
 
   useEffect(() => {
     fetchAdminData();
@@ -167,6 +168,30 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error(err);
       alert('Network error');
+    }
+  };
+
+  const handleGenerateSummary = async (resId) => {
+    if (generatingSummaries[resId]) return;
+    
+    setGeneratingSummaries(prev => ({ ...prev, [resId]: true }));
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/resource/item/${resId}/summary`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message || 'Summary generated successfully!');
+        refreshSubjectsAndPacks();
+      } else {
+        alert(data.message || 'Failed to generate summary');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Network error generating summary');
+    } finally {
+      setGeneratingSummaries(prev => ({ ...prev, [resId]: false }));
     }
   };
 
@@ -591,6 +616,19 @@ const AdminDashboard = () => {
                                       ) : (
                                         <button className="rp-btn-sm rp-btn-warning" onClick={() => handleRetryEmbedding(res._id)} title="Retry Embedding">
                                           ⚡ Retry AI
+                                        </button>
+                                      )}
+                                      {generatingSummaries[res._id] ? (
+                                        <button className="rp-btn-sm rp-btn-primary" disabled style={{ opacity: 0.65, cursor: 'not-allowed' }}>
+                                          ⏳ Processing…
+                                        </button>
+                                      ) : res.hasSummary ? (
+                                        <span className="rp-status-badge rp-status-success" title="Summary Created">
+                                          🟢 Summary Ready
+                                        </span>
+                                      ) : (
+                                        <button className="rp-btn-sm rp-btn-primary" onClick={() => handleGenerateSummary(res._id)} title="Generate Summary">
+                                          ✨ Gen Summary
                                         </button>
                                       )}
                                       <button className="rp-btn-icon rp-btn-danger" onClick={() => handleDeleteResource(res._id)} title="Delete Resource">

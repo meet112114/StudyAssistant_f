@@ -419,6 +419,21 @@
   box-shadow: 0 3px 10px rgba(139, 92, 246, 0.3);
 }
 
+.view-summary-btn:disabled {
+  background: var(--bg-tab, #e2e8f0);
+  color: var(--text-muted, #94a3b8);
+  cursor: not-allowed;
+  box-shadow: none;
+  border: 1px solid var(--border-color, #cbd5e1);
+  opacity: 0.75;
+}
+
+.view-summary-btn:disabled:hover {
+  background: var(--bg-tab, #e2e8f0);
+  color: var(--text-muted, #94a3b8);
+  box-shadow: none;
+}
+
 /* ── Modals Overlay ── */
 .guest-modal-overlay {
   position: fixed;

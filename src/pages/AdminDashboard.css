@@ -549,6 +549,22 @@
   box-shadow: none;
 }
 
+.rp-btn-success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.rp-btn-success:hover {
+  background: rgba(34, 197, 94, 0.2);
+  transform: none;
+  box-shadow: none;
+}
+
 /* ── Empty state ── */
 .rp-empty-state {
   display: flex;
