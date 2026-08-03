@@ -10,7 +10,6 @@ export default function GuestDashboard() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSemester, setSelectedSemester] = useState("MCA Sem 1");
-  const [searchQuery, setSearchQuery] = useState("");
   const [expandedSubjectId, setExpandedSubjectId] = useState(null);
 
   // Modals state
@@ -43,7 +42,6 @@ export default function GuestDashboard() {
 
   useEffect(() => {
     fetchSubjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOpenSummary = async (resource) => {
@@ -67,21 +65,9 @@ export default function GuestDashboard() {
     }
   };
 
-  // Filter subjects based on active tab and search query
+  // Filter subjects based on active tab
   const filteredSubjects = subjects.filter((subject) => {
-    const matchesSemester =
-      selectedSemester === "All" ||
-      !subject.semester ||
-      subject.semester === selectedSemester;
-
-    const matchesSearch =
-      subject.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (subject.resources &&
-        subject.resources.some((r) =>
-          r.name.toLowerCase().includes(searchQuery.toLowerCase())
-        ));
-
-    return matchesSemester && matchesSearch;
+    return !subject.semester || subject.semester === selectedSemester;
   });
 
   return (
@@ -115,28 +101,6 @@ export default function GuestDashboard() {
                 {sem}
               </button>
             ))}
-            <button
-              className={`sem-tab ${selectedSemester === "All" ? "active" : ""}`}
-              onClick={() => setSelectedSemester("All")}
-            >
-              All Semesters
-            </button>
-          </div>
-
-          {/* Search Bar */}
-          <div className="guest-search-box">
-            <span className="search-icon">🔍</span>
-            <input
-              type="text"
-              placeholder="Search subjects or PDFs..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <button className="clear-search" onClick={() => setSearchQuery("")}>
-                ✕
-              </button>
-            )}
           </div>
         </div>
 
@@ -151,9 +115,7 @@ export default function GuestDashboard() {
             <div className="empty-icon">📚</div>
             <h3>No subjects found</h3>
             <p>
-              {searchQuery
-                ? `No results match "${searchQuery}" in ${selectedSemester}.`
-                : `No subjects currently added under ${selectedSemester}.`}
+              No subjects currently added under {selectedSemester}.
             </p>
             <div className="quick-links-row">
               <Link to="/qna/discover" className="btn-link">
