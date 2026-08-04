@@ -236,7 +236,7 @@ export default function GuestDashboard() {
             </div>
             <div className="developer-actions">
               <a
-                href="https://portfolio.mslab.cc"
+                href="https://portfolio.meetlabs.tech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-dev portfolio-btn"
