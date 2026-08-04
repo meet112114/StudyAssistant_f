@@ -782,3 +782,120 @@
     justify-content: center;
   }
 }
+
+/* ── Developer Portfolio Section ── */
+.developer-portfolio-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color, #e2e8f0);
+}
+
+.developer-card {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+}
+
+.developer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.06);
+  border-color: #c7d2fe;
+}
+
+.developer-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dev-text h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.15rem;
+  color: var(--text-primary, #0f172a);
+}
+
+.dev-text p {
+  font-size: 0.85rem;
+  color: var(--text-muted, #64748b);
+  margin: 0;
+}
+
+.developer-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-dev {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--bg-tab, #f1f5f9);
+  color: var(--text-primary, #0f172a);
+  border: 1px solid var(--border-color, #e2e8f0);
+}
+
+.btn-dev:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08);
+}
+
+[data-theme='dark'] .btn-dev {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+[data-theme='dark'] .btn-dev:hover {
+  background: #334155;
+  color: #38bdf8;
+  border-color: #475569;
+}
+
+.btn-dev .icon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 768px) {
+  .developer-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .developer-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .developer-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .btn-dev {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

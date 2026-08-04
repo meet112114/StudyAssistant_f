@@ -62,15 +62,15 @@ function AppContent() {
     <Router>
       {user && <Navbar toggleTheme={toggleTheme} theme={theme} />}
       {!user && (
-         <div className="guest-header">
-           <h2>Study Assistant</h2>
-           <button onClick={toggleTheme} className="theme-toggle">
+        <div className="guest-header">
+          <h2 onClick={() => { window.location.href = "/" }}>Study Assistant</h2>
+          <button onClick={toggleTheme} className="theme-toggle">
             {theme === 'light' ? '🌙' : '☀️'}
-           </button>
-         </div>
+          </button>
+        </div>
       )}
       <Routes>
-        <Route path="/" element={user ? (user.role === 'admin' ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) :  <GuestDashboard />} />
+        <Route path="/" element={user ? (user.role === 'admin' ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) : <GuestDashboard />} />
         <Route path="/login" element={<div className="main-content"><Login /></div>} />
         <Route path="/register" element={<div className="main-content"><Register /></div>} />
         <Route
@@ -105,7 +105,7 @@ function AppContent() {
         {/* Public QnA routes — no auth required */}
         <Route path="/qna/discover" element={<QnaDiscoverPage />} />
         <Route path="/qna/public/:id" element={<QnaPublicViewer />} />
-        
+
         {/* Admin Route */}
         <Route
           path="/admin"
